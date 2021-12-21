@@ -1,36 +1,31 @@
 <template>
   <div class="modal">
-      <div class="overlay" @click="emit('closeModal')"></div>
-      <div class="modal-card">
-          <slot />
-      </div>
+    <div class="overlay" @click="emit('closeModal')"></div>
+    <div class="modal-card">
+      <slot />
+    </div>
   </div>
 </template>
 
 <script>
-import { onBeforeUnmount } from '@vue/runtime-core'
+import useKeydown from "../composables/use-keydown";
 export default {
-    setup(props, {emit}) {
-        let onKeydown  = (event) => {
-            console.log(event.key)
+  setup(props, { emit }) {
+    useKeydown([
+      {
+        key: "Escape",
+        fn: () => {
+          emit("closeModal");
+        },
+      },
+    ]);
 
-            if (event.key == 'Escape') {
-                emit('closeModal')
-            }
-        }
-        window.addEventListener('keydown', onKeydown)
-
-        onBeforeUnmount(() => {
-            window.removeEventListener('keydown', onKeydown)
-        })
-        
-        return {
-            emit
-        }
-    }
-}
+    return {
+      emit,
+    };
+  },
+};
 </script>
 
 <style>
-
 </style>
