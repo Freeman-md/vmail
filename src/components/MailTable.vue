@@ -40,6 +40,7 @@ import MailView from "./MailView.vue";
 import ModalView from "./ModalView.vue";
 import useEmailSelection from '@/composables/use-email-selection'
 import BulkActionBar from './BulkActionBar.vue';
+import { ref } from '@vue/reactivity';
 
 export default {
   components: { MailView, ModalView, BulkActionBar },
@@ -49,8 +50,8 @@ export default {
     return {
       emailSelection: useEmailSelection(),
       format,
-      emails: emails,
-      openedEmail: null,
+      emails: ref(emails),
+      openedEmail: ref(null),
     };
   },
   computed: {
