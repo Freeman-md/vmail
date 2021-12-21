@@ -38,27 +38,15 @@ import { format } from "date-fns";
 import axios from "axios";
 import MailView from "./MailView.vue";
 import ModalView from "./ModalView.vue";
-import { reactive } from '@vue/reactivity';
+import useEmailSelection from '@/composables/use-email-selection'
+
 export default {
   components: { MailView, ModalView },
   async setup() {
     let { data: emails } = await axios.get("http://localhost:3000/emails");
 
-    let selected = reactive(new Set())
-    let emailSelection = {
-      emails: selected,
-      toggle(email) {
-        if (selected.has(email)) {
-          selected.delete(email)
-        } else {
-          selected.add(email)
-        }
-        console.log(selected)
-      }
-    }
-
     return {
-      emailSelection,
+      emailSelection: useEmailSelection(),
       format,
       emails: emails,
       openedEmail: null,
